@@ -72,6 +72,22 @@
   border-color: transparent;
 }
 
+.nav-link.features-link {
+  color: #c084fc;
+}
+
+.nav-link.features-link:hover {
+  background: rgba(192, 132, 252, 0.1);
+  border-color: rgba(192, 132, 252, 0.3);
+  color: #c084fc;
+}
+
+.nav-link.features-link.active {
+  background: linear-gradient(135deg, #c084fc 0%, #9333ea 100%);
+  box-shadow: 0 4px 20px rgba(147, 51, 234, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
 @media (max-width: 768px) {
   .navigation {
     flex-direction: column;
