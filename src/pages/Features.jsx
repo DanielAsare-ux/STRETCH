@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Sparkles, 
   Camera, 
@@ -11,7 +12,8 @@ import {
   Lock,
   Zap,
   Target,
-  Eye
+  Eye,
+  ArrowRight
 } from 'lucide-react';
 import './Features.css';
 
@@ -24,7 +26,8 @@ function Features() {
       name: 'AI-Generated Routines',
       icon: <Sparkles size={28} />,
       description: 'Personalized workout plans created by AI based on your goals, fitness level, and available equipment.',
-      status: 'Coming Soon',
+      status: 'Available',
+      link: '/ai-workout',
       preview: {
         title: 'Your AI Coach',
         details: [
@@ -41,7 +44,8 @@ function Features() {
       name: 'Camera Form Correction',
       icon: <Camera size={28} />,
       description: 'Real-time form feedback using your device camera. Perfect for beginners learning proper technique.',
-      status: 'In Development',
+      status: 'Available',
+      link: '/form-correction',
       preview: {
         title: 'Form Analysis',
         details: [
@@ -58,7 +62,8 @@ function Features() {
       name: 'Mobility Score System',
       icon: <Activity size={28} />,
       description: 'Track your flexibility and mobility progress with a comprehensive scoring system.',
-      status: 'Coming Soon',
+      status: 'Available',
+      link: '/mobility-score',
       preview: {
         title: 'Your Mobility Score',
         score: 72,
@@ -76,7 +81,8 @@ function Features() {
       name: 'Smart Streak System',
       icon: <Flame size={28} />,
       description: 'Intelligent streak tracking that accounts for rest days and rewards consistency over perfection.',
-      status: 'Coming Soon',
+      status: 'Available',
+      link: '/smart-streak',
       preview: {
         title: 'Smart Streaks',
         currentStreak: 14,
@@ -111,7 +117,8 @@ function Features() {
       name: '5-10 Min Quick Sessions',
       icon: <Clock size={28} />,
       description: 'Ultra-short workouts designed for busy schedules. Effective sessions anywhere, anytime.',
-      status: 'Partially Available',
+      status: 'Available',
+      link: '/workouts',
       preview: {
         title: 'Quick Sessions',
         sessions: [
@@ -144,6 +151,8 @@ function Features() {
 
   const getStatusClass = (status) => {
     switch (status) {
+      case 'Available':
+        return 'available';
       case 'Partially Available':
         return 'available';
       case 'In Development':
@@ -268,10 +277,17 @@ function Features() {
               )}
             </div>
             
-            <button className="notify-btn" onClick={(e) => e.stopPropagation()}>
-              <Smartphone size={16} />
-              Get Notified
-            </button>
+            {feature.link ? (
+              <Link to={feature.link} className="launch-btn" onClick={(e) => e.stopPropagation()}>
+                <ArrowRight size={16} />
+                Launch Feature
+              </Link>
+            ) : (
+              <button className="notify-btn" onClick={(e) => e.stopPropagation()}>
+                <Smartphone size={16} />
+                Get Notified
+              </button>
+            )}
           </article>
         ))}
       </section>
