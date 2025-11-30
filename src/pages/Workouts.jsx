@@ -9,6 +9,7 @@ function Workouts() {
 
   const categories = [
     { id: 'all', name: 'All Workouts', icon: '🏋️' },
+    { id: 'calisthenics', name: 'Calisthenics', icon: '🤸' },
     { id: 'cardio', name: 'Cardio', icon: '🏃' },
     { id: 'strength', name: 'Strength', icon: '💪' },
     { id: 'flexibility', name: 'Flexibility', icon: '🧘' },
@@ -16,6 +17,33 @@ function Workouts() {
   ];
 
   const workouts = [
+    // Calisthenics - Beginner
+    { id: 10, name: 'Calisthenics Basics', category: 'calisthenics', duration: 20, calories: 150, difficulty: 'Easy', exercises: 8, image: '🤸' },
+    { id: 11, name: 'Beginner Push-Up Progression', category: 'calisthenics', duration: 15, calories: 120, difficulty: 'Easy', exercises: 6, image: '💪' },
+    { id: 12, name: 'Wall & Knee Push-Ups', category: 'calisthenics', duration: 15, calories: 100, difficulty: 'Easy', exercises: 5, image: '🧱' },
+    { id: 13, name: 'Bodyweight Squats Intro', category: 'calisthenics', duration: 20, calories: 140, difficulty: 'Easy', exercises: 7, image: '🦵' },
+    
+    // Calisthenics - Intermediate
+    { id: 14, name: 'Pull-Up Foundation', category: 'calisthenics', duration: 25, calories: 200, difficulty: 'Medium', exercises: 8, image: '🏋️' },
+    { id: 15, name: 'Dips & Push-Up Combos', category: 'calisthenics', duration: 30, calories: 250, difficulty: 'Medium', exercises: 10, image: '💪' },
+    { id: 16, name: 'Pistol Squat Training', category: 'calisthenics', duration: 25, calories: 180, difficulty: 'Medium', exercises: 8, image: '🎯' },
+    { id: 17, name: 'Core & L-Sit Progressions', category: 'calisthenics', duration: 20, calories: 160, difficulty: 'Medium', exercises: 7, image: '🔥' },
+    { id: 18, name: 'Muscle-Up Prep', category: 'calisthenics', duration: 30, calories: 280, difficulty: 'Medium', exercises: 10, image: '⬆️' },
+    
+    // Calisthenics - Advanced
+    { id: 19, name: 'Advanced Pull-Up Variations', category: 'calisthenics', duration: 35, calories: 320, difficulty: 'Hard', exercises: 12, image: '💪' },
+    { id: 20, name: 'Handstand Push-Ups', category: 'calisthenics', duration: 30, calories: 280, difficulty: 'Hard', exercises: 8, image: '🤸' },
+    { id: 21, name: 'Planche Progressions', category: 'calisthenics', duration: 35, calories: 300, difficulty: 'Hard', exercises: 10, image: '🦾' },
+    { id: 22, name: 'Front Lever Training', category: 'calisthenics', duration: 30, calories: 260, difficulty: 'Hard', exercises: 9, image: '🏆' },
+    
+    // Calisthenics - Pro
+    { id: 23, name: 'Pro Muscle-Up Mastery', category: 'calisthenics', duration: 45, calories: 400, difficulty: 'Expert', exercises: 14, image: '👑' },
+    { id: 24, name: 'Full Planche Workout', category: 'calisthenics', duration: 40, calories: 380, difficulty: 'Expert', exercises: 12, image: '🔱' },
+    { id: 25, name: 'Iron Cross Preparation', category: 'calisthenics', duration: 45, calories: 420, difficulty: 'Expert', exercises: 15, image: '⚔️' },
+    { id: 26, name: 'One-Arm Pull-Up Program', category: 'calisthenics', duration: 40, calories: 350, difficulty: 'Expert', exercises: 10, image: '💎' },
+    { id: 27, name: 'Street Workout Pro', category: 'calisthenics', duration: 50, calories: 450, difficulty: 'Expert', exercises: 16, image: '🏅' },
+    
+    // Original workouts
     { id: 1, name: 'Full Body Burn', category: 'hiit', duration: 30, calories: 350, difficulty: 'Hard', exercises: 12, image: '🔥' },
     { id: 2, name: 'Morning Yoga Flow', category: 'flexibility', duration: 20, calories: 120, difficulty: 'Easy', exercises: 8, image: '🧘' },
     { id: 3, name: 'Cardio Blast', category: 'cardio', duration: 25, calories: 280, difficulty: 'Medium', exercises: 10, image: '🏃' },

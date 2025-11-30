@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { Home, Dumbbell, Apple, TrendingUp, User } from 'lucide-react';
+import { Home, Dumbbell, Apple, TrendingUp, User, Sparkles } from 'lucide-react';
 import './Navigation.css';
 
 function Navigation() {
@@ -38,6 +38,12 @@ function Navigation() {
           <NavLink to="/profile" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
             <User size={20} />
             <span>Profile</span>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/features" className={({ isActive }) => isActive ? 'nav-link active features-link' : 'nav-link features-link'}>
+            <Sparkles size={20} />
+            <span>Features</span>
           </NavLink>
         </li>
       </ul>
