@@ -14,7 +14,7 @@ function Home() {
   const quickWorkouts = [
     { id: 1, name: 'Morning Stretch', duration: '15 min', difficulty: 'Easy', image: '🧘' },
     { id: 2, name: 'HIIT Cardio', duration: '20 min', difficulty: 'Hard', image: '🏃' },
-    { id: 3, name: 'Core Strength', duration: '10 min', difficulty: 'Medium', image: '💪' },
+    { id: 3, name: 'Calisthenics Basics', duration: '20 min', difficulty: 'Easy', image: '🤸' },
   ];
 
   const achievements = [
