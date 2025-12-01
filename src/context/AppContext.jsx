@@ -71,7 +71,10 @@ export function AppProvider({ children }) {
   const logWorkout = (workout) => {
     setAppData(prev => {
       const newWorkoutCount = prev.todayStats.workouts + 1;
-      const newStreak = prev.todayStats.workouts === 0 ? prev.todayStats.streak + 1 : prev.todayStats.streak;
+      // Streak increments on first workout of the day
+      // This is intentional: completing at least one workout per day maintains/increases the streak
+      const isFirstWorkoutToday = prev.todayStats.workouts === 0;
+      const newStreak = isFirstWorkoutToday ? prev.todayStats.streak + 1 : prev.todayStats.streak;
       
       // Check achievements
       const newAchievements = [...prev.achievements];

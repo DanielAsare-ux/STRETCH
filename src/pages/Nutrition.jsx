@@ -72,12 +72,19 @@ function Nutrition() {
     }
   ];
 
+  // Helper function to parse meal items
+  function parseMealItems(items) {
+    if (!items) return [];
+    if (Array.isArray(items)) return items;
+    return items.split(',').map(item => item.trim());
+  }
+
   // Show logged meals or default meals
   const meals = appData.nutrition.meals.length > 0 
     ? appData.nutrition.meals.map(meal => ({
         ...meal,
         icon: getMealIcon(meal.name),
-        items: meal.items ? (Array.isArray(meal.items) ? meal.items : meal.items.split(',').map(item => item.trim())) : []
+        items: parseMealItems(meal.items)
       }))
     : defaultMeals;
 

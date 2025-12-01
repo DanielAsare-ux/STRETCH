@@ -43,7 +43,7 @@ const exercisesByCategory = {
     { name: 'Quad Stretch', duration: 30 },
     { name: 'Hamstring Stretch', duration: 30 },
     { name: 'Shoulder Stretch', duration: 30 },
-    { name: 'Child\'s Pose', duration: 30 },
+    { name: "Child's Pose", duration: 30 },
   ],
   hiit: [
     { name: 'Burpees', reps: 10, duration: 45 },
@@ -109,7 +109,11 @@ function WorkoutSession({ workout, onClose, onComplete }) {
         
         // Calculate calories burned (approximately)
         if (phase === 'workout') {
-          setCaloriesBurned(prev => prev + (workout.calories / (workout.duration * 60) || 0.15));
+          // Calculate calories per second, use default if workout values are missing or zero
+          const caloriesPerSecond = (workout.calories && workout.duration) 
+            ? workout.calories / (workout.duration * 60) 
+            : 0.15;
+          setCaloriesBurned(prev => prev + caloriesPerSecond);
         }
       }, 1000);
     }
