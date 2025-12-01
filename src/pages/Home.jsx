@@ -1,27 +1,37 @@
+import { useState } from 'react';
 import { Flame, Target, Trophy, Clock, ArrowRight, Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useAppContext } from '../context/AppContext';
+import WorkoutSession from '../components/WorkoutSession';
 import './Home.css';
 
 function Home() {
+  const { appData } = useAppContext();
+  const [activeWorkout, setActiveWorkout] = useState(null);
+
   const todayStats = {
-    calories: 450,
+    calories: appData.todayStats.calories,
     caloriesGoal: 600,
-    workouts: 2,
-    streak: 7,
-    activeMinutes: 45
+    workouts: appData.todayStats.workouts,
+    streak: appData.todayStats.streak,
+    activeMinutes: appData.todayStats.activeMinutes
   };
 
   const quickWorkouts = [
-    { id: 1, name: 'Morning Stretch', duration: '15 min', difficulty: 'Easy', image: '🧘' },
-    { id: 2, name: 'HIIT Cardio', duration: '20 min', difficulty: 'Hard', image: '🏃' },
-    { id: 3, name: 'Calisthenics Basics', duration: '20 min', difficulty: 'Easy', image: '🤸' },
+    { id: 1, name: 'Morning Stretch', duration: 15, durationLabel: '15 min', difficulty: 'Easy', image: '🧘', category: 'flexibility', exercises: 6, calories: 50 },
+    { id: 2, name: 'HIIT Cardio', duration: 20, durationLabel: '20 min', difficulty: 'Hard', image: '🏃', category: 'hiit', exercises: 8, calories: 200 },
+    { id: 3, name: 'Calisthenics Basics', duration: 20, durationLabel: '20 min', difficulty: 'Easy', image: '🤸', category: 'calisthenics', exercises: 8, calories: 150 },
   ];
 
-  const achievements = [
-    { id: 1, name: '7 Day Streak', icon: '🔥', unlocked: true },
-    { id: 2, name: 'First Workout', icon: '⭐', unlocked: true },
-    { id: 3, name: '10 Workouts', icon: '🏆', unlocked: false },
-  ];
+  const achievements = appData.achievements;
+
+  const handleStartWorkout = (workout) => {
+    setActiveWorkout(workout);
+  };
+
+  const handleCloseWorkout = () => {
+    setActiveWorkout(null);
+  };
 
   return (
     <div className="home">
@@ -98,13 +108,17 @@ function Home() {
               <div className="workout-info">
                 <h3>{workout.name}</h3>
                 <div className="workout-meta">
-                  <span className="workout-duration">{workout.duration}</span>
+                  <span className="workout-duration">{workout.durationLabel}</span>
                   <span className={`workout-difficulty ${workout.difficulty.toLowerCase()}`}>
                     {workout.difficulty}
                   </span>
                 </div>
               </div>
-              <button className="play-button" aria-label={`Start ${workout.name}`}>
+              <button 
+                className="play-button" 
+                aria-label={`Start ${workout.name}`}
+                onClick={() => handleStartWorkout(workout)}
+              >
                 <Play size={20} />
               </button>
             </div>
@@ -136,10 +150,18 @@ function Home() {
       <section className="motivation-banner">
         <div className="motivation-content">
           <h2>Keep Going!</h2>
-          <p>You&apos;re only 3 workouts away from your weekly goal!</p>
+          <p>You&apos;re only {Math.max(0, 5 - todayStats.workouts)} workouts away from your weekly goal!</p>
           <Link to="/workouts" className="cta-button">Start Workout</Link>
         </div>
       </section>
+
+      {activeWorkout && (
+        <WorkoutSession
+          workout={activeWorkout}
+          onClose={handleCloseWorkout}
+          onComplete={handleCloseWorkout}
+        />
+      )}
     </div>
   );
 }

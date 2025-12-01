@@ -1,19 +1,31 @@
 import { useState } from 'react';
 import { Plus, Droplets, Apple, Flame, Target, Coffee, Pizza, Salad, X } from 'lucide-react';
+import { useAppContext } from '../context/AppContext';
 import './Nutrition.css';
 
 function Nutrition() {
-  const [waterIntake, setWaterIntake] = useState(5);
+  const { appData, logMeal, setWaterIntake: setContextWaterIntake } = useAppContext();
   const [showAddMeal, setShowAddMeal] = useState(false);
+  const [newMeal, setNewMeal] = useState({
+    name: '',
+    items: '',
+    calories: '',
+    protein: '',
+    carbs: '',
+    fat: ''
+  });
+
+  const waterIntake = appData.nutrition.waterIntake;
 
   const dailyGoals = {
-    calories: { current: 1450, goal: 2000 },
-    protein: { current: 85, goal: 120 },
-    carbs: { current: 180, goal: 250 },
-    fat: { current: 45, goal: 65 }
+    calories: { current: appData.nutrition.calories.current, goal: appData.nutrition.calories.goal },
+    protein: { current: appData.nutrition.protein.current, goal: appData.nutrition.protein.goal },
+    carbs: { current: appData.nutrition.carbs.current, goal: appData.nutrition.carbs.goal },
+    fat: { current: appData.nutrition.fat.current, goal: appData.nutrition.fat.goal }
   };
 
-  const meals = [
+  // Default meals to show if none have been logged
+  const defaultMeals = [
     { 
       id: 1, 
       name: 'Breakfast', 
@@ -60,6 +72,61 @@ function Nutrition() {
     }
   ];
 
+  // Show logged meals or default meals
+  const meals = appData.nutrition.meals.length > 0 
+    ? appData.nutrition.meals.map(meal => ({
+        ...meal,
+        icon: getMealIcon(meal.name),
+        items: meal.items ? (Array.isArray(meal.items) ? meal.items : meal.items.split(',').map(item => item.trim())) : []
+      }))
+    : defaultMeals;
+
+  function getMealIcon(mealName) {
+    const name = mealName.toLowerCase();
+    if (name.includes('breakfast')) return <Coffee />;
+    if (name.includes('lunch')) return <Salad />;
+    if (name.includes('snack')) return <Apple />;
+    if (name.includes('dinner')) return <Pizza />;
+    return <Apple />;
+  }
+
+  const handleWaterIntake = (glasses) => {
+    setContextWaterIntake(glasses);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewMeal(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmitMeal = (e) => {
+    e.preventDefault();
+    
+    if (!newMeal.name || !newMeal.calories) {
+      return;
+    }
+
+    logMeal({
+      name: newMeal.name,
+      items: newMeal.items,
+      calories: parseInt(newMeal.calories) || 0,
+      protein: parseInt(newMeal.protein) || 0,
+      carbs: parseInt(newMeal.carbs) || 0,
+      fat: parseInt(newMeal.fat) || 0
+    });
+
+    // Reset form and close modal
+    setNewMeal({
+      name: '',
+      items: '',
+      calories: '',
+      protein: '',
+      carbs: '',
+      fat: ''
+    });
+    setShowAddMeal(false);
+  };
+
   const getMacroPercentage = (current, goal) => Math.min((current / goal) * 100, 100);
 
   return (
@@ -95,12 +162,12 @@ function Nutrition() {
             </svg>
             <div className="calories-center">
               <Flame className="calories-icon" />
-              <span className="calories-value">{dailyGoals.calories.current}</span>
+              <span className="calories-value">{Math.round(dailyGoals.calories.current)}</span>
               <span className="calories-label">of {dailyGoals.calories.goal} cal</span>
             </div>
           </div>
           <h2>Daily Calories</h2>
-          <p className="calories-remaining">{dailyGoals.calories.goal - dailyGoals.calories.current} cal remaining</p>
+          <p className="calories-remaining">{Math.max(0, dailyGoals.calories.goal - Math.round(dailyGoals.calories.current))} cal remaining</p>
         </section>
 
         <section className="macros-section">
@@ -118,7 +185,7 @@ function Nutrition() {
                 />
               </div>
               <div className="macro-values">
-                <span>{dailyGoals.protein.current}g</span>
+                <span>{Math.round(dailyGoals.protein.current)}g</span>
                 <span>/ {dailyGoals.protein.goal}g</span>
               </div>
             </div>
@@ -135,7 +202,7 @@ function Nutrition() {
                 />
               </div>
               <div className="macro-values">
-                <span>{dailyGoals.carbs.current}g</span>
+                <span>{Math.round(dailyGoals.carbs.current)}g</span>
                 <span>/ {dailyGoals.carbs.goal}g</span>
               </div>
             </div>
@@ -152,7 +219,7 @@ function Nutrition() {
                 />
               </div>
               <div className="macro-values">
-                <span>{dailyGoals.fat.current}g</span>
+                <span>{Math.round(dailyGoals.fat.current)}g</span>
                 <span>/ {dailyGoals.fat.goal}g</span>
               </div>
             </div>
@@ -167,7 +234,7 @@ function Nutrition() {
                 <button
                   key={i}
                   className={`water-glass ${i < waterIntake ? 'filled' : ''}`}
-                  onClick={() => setWaterIntake(i + 1)}
+                  onClick={() => handleWaterIntake(i + 1)}
                   aria-label={`Set water intake to ${i + 1} glasses`}
                 >
                   <Droplets size={20} />
@@ -221,37 +288,78 @@ function Nutrition() {
                 <X size={24} />
               </button>
             </div>
-            <div className="modal-content">
+            <form className="modal-content" onSubmit={handleSubmitMeal}>
               <div className="form-group">
                 <label>Meal Name</label>
-                <input type="text" placeholder="e.g., Lunch" />
+                <input 
+                  type="text" 
+                  name="name"
+                  placeholder="e.g., Lunch" 
+                  value={newMeal.name}
+                  onChange={handleInputChange}
+                  required
+                />
               </div>
               <div className="form-group">
                 <label>Food Items</label>
-                <textarea placeholder="List your food items..."></textarea>
+                <textarea 
+                  name="items"
+                  placeholder="List your food items (comma separated)..."
+                  value={newMeal.items}
+                  onChange={handleInputChange}
+                ></textarea>
               </div>
               <div className="form-row">
                 <div className="form-group">
                   <label>Calories</label>
-                  <input type="number" placeholder="0" />
+                  <input 
+                    type="number" 
+                    name="calories"
+                    placeholder="0" 
+                    value={newMeal.calories}
+                    onChange={handleInputChange}
+                    required
+                    min="0"
+                  />
                 </div>
                 <div className="form-group">
                   <label>Protein (g)</label>
-                  <input type="number" placeholder="0" />
+                  <input 
+                    type="number" 
+                    name="protein"
+                    placeholder="0" 
+                    value={newMeal.protein}
+                    onChange={handleInputChange}
+                    min="0"
+                  />
                 </div>
               </div>
               <div className="form-row">
                 <div className="form-group">
                   <label>Carbs (g)</label>
-                  <input type="number" placeholder="0" />
+                  <input 
+                    type="number" 
+                    name="carbs"
+                    placeholder="0" 
+                    value={newMeal.carbs}
+                    onChange={handleInputChange}
+                    min="0"
+                  />
                 </div>
                 <div className="form-group">
                   <label>Fat (g)</label>
-                  <input type="number" placeholder="0" />
+                  <input 
+                    type="number" 
+                    name="fat"
+                    placeholder="0" 
+                    value={newMeal.fat}
+                    onChange={handleInputChange}
+                    min="0"
+                  />
                 </div>
               </div>
-              <button className="submit-btn">Log Meal</button>
-            </div>
+              <button type="submit" className="submit-btn">Log Meal</button>
+            </form>
           </div>
         </div>
       )}

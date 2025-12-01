@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Search, Filter, Clock, Flame, Play, Heart, ChevronDown } from 'lucide-react';
+import WorkoutSession from '../components/WorkoutSession';
 import './Workouts.css';
 
 function Workouts() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [favorites, setFavorites] = useState([1, 4]);
+  const [activeWorkout, setActiveWorkout] = useState(null);
 
   const categories = [
     { id: 'all', name: 'All Workouts', icon: '🏋️' },
@@ -59,6 +61,14 @@ function Workouts() {
     setFavorites(prev => 
       prev.includes(id) ? prev.filter(f => f !== id) : [...prev, id]
     );
+  };
+
+  const handleStartWorkout = (workout) => {
+    setActiveWorkout(workout);
+  };
+
+  const handleCloseWorkout = () => {
+    setActiveWorkout(null);
   };
 
   const filteredWorkouts = workouts.filter(workout => {
@@ -138,7 +148,7 @@ function Workouts() {
                 </span>
                 <span className="exercises-count">{workout.exercises} exercises</span>
               </div>
-              <button className="start-workout-btn">
+              <button className="start-workout-btn" onClick={() => handleStartWorkout(workout)}>
                 <Play size={18} />
                 Start Workout
               </button>
@@ -154,6 +164,14 @@ function Workouts() {
             Clear filters
           </button>
         </div>
+      )}
+
+      {activeWorkout && (
+        <WorkoutSession
+          workout={activeWorkout}
+          onClose={handleCloseWorkout}
+          onComplete={handleCloseWorkout}
+        />
       )}
     </div>
   );
