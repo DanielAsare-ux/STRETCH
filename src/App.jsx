@@ -14,6 +14,7 @@ import MobilityScore from './pages/MobilityScore';
 import SmartStreak from './pages/SmartStreak';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Premium from './pages/Premium';
 import './App.css';
 
 // Protected Route component
@@ -107,6 +108,11 @@ function AppContent() {
           <Route path="/smart-streak" element={
             <ProtectedRoute>
               <SmartStreak />
+            </ProtectedRoute>
+          } />
+          <Route path="/premium" element={
+            <ProtectedRoute>
+              <Premium />
             </ProtectedRoute>
           } />
         </Routes>
