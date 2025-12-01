@@ -1,9 +1,16 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { User, Settings, Bell, Moon, LogOut, Edit3, Target, Award, Calendar, ChevronRight, Save } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { useAppContext } from '../context/AppContext';
 import './Profile.css';
 
 function Profile() {
+  const { user, logout, updateProfile } = useAuth();
+  const { appData } = useAppContext();
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
+  const [editedName, setEditedName] = useState(user?.name || '');
   const [settings, setSettings] = useState({
     notifications: true,
     darkMode: true,
@@ -11,30 +18,33 @@ function Profile() {
     weeklyReport: true
   });
 
-  const user = {
-    name: 'Alex Johnson',
-    email: 'alex.johnson@email.com',
-    avatar: '🏋️',
-    memberSince: 'January 2024',
-    level: 'Pro',
-    points: 2450
-  };
-
   const goals = [
     { id: 1, name: 'Target Weight', value: '70 kg', progress: 75, icon: <Target size={20} /> },
-    { id: 2, name: 'Weekly Workouts', value: '5 sessions', progress: 80, icon: <Calendar size={20} /> },
+    { id: 2, name: 'Weekly Workouts', value: '5 sessions', progress: Math.min(100, (appData.todayStats.workouts / 5) * 100), icon: <Calendar size={20} /> },
     { id: 3, name: 'Daily Steps', value: '10,000 steps', progress: 60, icon: <Award size={20} /> }
   ];
 
   const stats = [
-    { label: 'Total Workouts', value: '127' },
-    { label: 'Calories Burned', value: '45,230' },
-    { label: 'Hours Active', value: '89' },
-    { label: 'Achievements', value: '12' }
+    { label: 'Total Workouts', value: String(appData.workoutHistory?.length || 0) },
+    { label: 'Calories Burned', value: String(appData.todayStats?.calories || 0) },
+    { label: 'Day Streak', value: String(appData.todayStats?.streak || 0) },
+    { label: 'Active Minutes', value: String(appData.todayStats?.activeMinutes || 0) }
   ];
 
   const toggleSetting = (key) => {
     setSettings(prev => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const handleSaveProfile = () => {
+    if (editedName.trim()) {
+      updateProfile({ name: editedName.trim() });
+    }
+    setIsEditing(false);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
   };
 
   return (
@@ -49,23 +59,33 @@ function Profile() {
       <div className="profile-grid">
         <section className="user-card">
           <div className="user-avatar">
-            <span className="avatar-emoji">{user.avatar}</span>
+            <span className="avatar-emoji">{user?.avatar || '🏋️'}</span>
             <button className="edit-avatar-btn" aria-label="Edit avatar">
               <Edit3 size={14} />
             </button>
           </div>
           <div className="user-info">
-            <h2>{user.name}</h2>
-            <p className="user-email">{user.email}</p>
+            {isEditing ? (
+              <input
+                type="text"
+                value={editedName}
+                onChange={(e) => setEditedName(e.target.value)}
+                className="edit-name-input"
+                placeholder="Enter your name"
+              />
+            ) : (
+              <h2>{user?.name || 'User'}</h2>
+            )}
+            <p className="user-email">{user?.email || ''}</p>
             <div className="user-badges">
-              <span className="badge level">{user.level}</span>
-              <span className="badge points">⭐ {user.points} pts</span>
+              <span className="badge level">Member</span>
+              <span className="badge points">⭐ {appData.workoutHistory?.length * 50 || 0} pts</span>
             </div>
           </div>
-          <p className="member-since">Member since {user.memberSince}</p>
+          <p className="member-since">Member since {user?.memberSince || 'Today'}</p>
           <button 
             className={`edit-profile-btn ${isEditing ? 'save' : ''}`}
-            onClick={() => setIsEditing(!isEditing)}
+            onClick={isEditing ? handleSaveProfile : () => setIsEditing(true)}
           >
             {isEditing ? (
               <>
@@ -217,7 +237,7 @@ function Profile() {
               <span>Data & Storage</span>
               <ChevronRight size={20} />
             </button>
-            <button className="account-option danger">
+            <button className="account-option danger" onClick={handleLogout}>
               <LogOut size={20} />
               <span>Sign Out</span>
             </button>
