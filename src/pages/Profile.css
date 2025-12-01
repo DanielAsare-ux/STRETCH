@@ -126,6 +126,27 @@
   border: 1px solid rgba(255, 179, 71, 0.3);
 }
 
+.edit-name-input {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(0, 212, 255, 0.4);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  color: #ffffff;
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  outline: none;
+  margin-bottom: 0.5rem;
+}
+
+.edit-name-input:focus {
+  border-color: #00d4ff;
+  box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+}
+
 .member-since {
   color: #4a5568;
   font-size: 0.9rem;

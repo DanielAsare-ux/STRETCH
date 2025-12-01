@@ -1,8 +1,11 @@
 import { NavLink } from 'react-router-dom';
-import { Home, Dumbbell, Apple, TrendingUp, User, Sparkles } from 'lucide-react';
+import { Home, Dumbbell, Apple, TrendingUp, User, Sparkles, Crown } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 import './Navigation.css';
 
 function Navigation() {
+  const { isPremium } = useAuth();
+
   return (
     <nav className="navigation">
       <div className="nav-brand">
@@ -44,6 +47,12 @@ function Navigation() {
           <NavLink to="/features" className={({ isActive }) => isActive ? 'nav-link active features-link' : 'nav-link features-link'}>
             <Sparkles size={20} />
             <span>Features</span>
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/premium" className={({ isActive }) => `nav-link premium-link ${isActive ? 'active' : ''} ${isPremium ? 'is-premium' : ''}`}>
+            <Crown size={20} />
+            <span>{isPremium ? 'Premium ✓' : 'Premium'}</span>
           </NavLink>
         </li>
       </ul>

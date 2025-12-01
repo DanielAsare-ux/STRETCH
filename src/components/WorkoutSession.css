@@ -1,0 +1,438 @@
+.workout-session-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.workout-session {
+  background: linear-gradient(145deg, #1a1a2e, #16213e);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.session-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.session-header h2 {
+  color: #fff;
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.session-header .close-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.session-header .close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.session-progress {
+  margin-bottom: 2rem;
+}
+
+.session-progress .progress-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.session-progress .progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00d4ff, #00ff88);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.session-progress .progress-text {
+  display: block;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* Ready state */
+.ready-content {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.ready-content h3 {
+  color: #fff;
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.ready-content p {
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 2rem;
+}
+
+.first-exercise-preview {
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+.first-exercise-preview .exercise-name {
+  display: block;
+  color: #00d4ff;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.first-exercise-preview .exercise-reps {
+  display: block;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.start-btn {
+  background: linear-gradient(135deg, #00d4ff, #00ff88);
+  color: #000;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem 2rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.start-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+}
+
+/* Countdown */
+.countdown-content {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.countdown-content h3 {
+  color: #fff;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.countdown-content .big-timer {
+  font-size: 6rem;
+  font-weight: 700;
+  color: #00d4ff;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.countdown-content p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.125rem;
+}
+
+/* Exercise display */
+.exercise-content {
+  text-align: center;
+}
+
+.exercise-display {
+  margin-bottom: 2rem;
+}
+
+.exercise-display h3 {
+  color: #fff;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.exercise-display .exercise-reps {
+  color: #00d4ff;
+  font-size: 1.25rem;
+}
+
+.timer-display {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.timer-circle {
+  position: relative;
+  width: 180px;
+  height: 180px;
+}
+
+.timer-circle svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.timer-circle .timer-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 8;
+}
+
+.timer-circle .timer-progress {
+  fill: none;
+  stroke: #00d4ff;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 283;
+  transition: stroke-dashoffset 0.3s linear;
+}
+
+.timer-circle .timer-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.session-controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.control-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.control-btn.skip {
+  padding: 0.75rem 1.5rem;
+  font-size: 0.875rem;
+}
+
+.control-btn.pause {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  justify-content: center;
+  background: linear-gradient(135deg, #00d4ff, #00ff88);
+  color: #000;
+}
+
+.control-btn:hover {
+  transform: scale(1.05);
+}
+
+.control-btn.skip:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Rest period */
+.rest-content {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.rest-content h3 {
+  color: #00ff88;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.rest-content .big-timer {
+  font-size: 5rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.rest-content p {
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 1.5rem;
+}
+
+.skip-rest-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.skip-rest-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Session stats */
+.session-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.session-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.session-stat svg {
+  color: #00d4ff;
+}
+
+/* Complete screen */
+.workout-session.complete {
+  text-align: center;
+}
+
+.complete-content {
+  padding: 2rem 0;
+}
+
+.complete-icon {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  color: #fff;
+  animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.complete-content h2 {
+  color: #fff;
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.complete-content > p {
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 2rem;
+}
+
+.complete-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.complete-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.complete-stat svg {
+  color: #00d4ff;
+}
+
+.complete-stat .stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.complete-stat .stat-label {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+}
+
+.done-btn {
+  background: linear-gradient(135deg, #00d4ff, #00ff88);
+  color: #000;
+  border: none;
+  border-radius: 12px;
+  padding: 1rem 3rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.done-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .workout-session {
+    padding: 1.5rem;
+  }
+  
+  .exercise-display h3 {
+    font-size: 1.5rem;
+  }
+  
+  .timer-circle {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .timer-circle .timer-value {
+    font-size: 2.5rem;
+  }
+  
+  .complete-stats {
+    gap: 1rem;
+  }
+  
+  .complete-stat .stat-value {
+    font-size: 1.5rem;
+  }
+}

@@ -88,6 +88,36 @@
   color: #ffffff;
 }
 
+.nav-link.premium-link {
+  color: #ffd700;
+}
+
+.nav-link.premium-link:hover {
+  background: rgba(255, 215, 0, 0.1);
+  border-color: rgba(255, 215, 0, 0.3);
+  color: #ffd700;
+}
+
+.nav-link.premium-link.active {
+  background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  color: #000;
+}
+
+.nav-link.premium-link.is-premium {
+  color: #00ff88;
+}
+
+.nav-link.premium-link.is-premium:hover {
+  background: rgba(0, 255, 136, 0.1);
+  border-color: rgba(0, 255, 136, 0.3);
+}
+
+.nav-link.premium-link.is-premium.active {
+  background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+  color: #000;
+}
+
 @media (max-width: 768px) {
   .navigation {
     flex-direction: column;

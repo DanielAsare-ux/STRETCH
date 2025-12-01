@@ -11,6 +11,10 @@
   position: relative;
 }
 
+.main-content.no-nav {
+  min-height: 100vh;
+}
+
 .main-content::before {
   content: '';
   position: absolute;
